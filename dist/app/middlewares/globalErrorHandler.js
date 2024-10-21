@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -9,7 +32,7 @@ const config_1 = __importDefault(require("../config"));
 const handleValidationError_1 = __importDefault(require("../errors/handleValidationError"));
 const handleCastError_1 = __importDefault(require("../errors/handleCastError"));
 const handleDuplicateError_1 = __importDefault(require("../errors/handleDuplicateError"));
-const AppError_1 = __importDefault(require("../errors/AppError"));
+const AppError_1 = __importStar(require("../errors/AppError"));
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const globalErrorHandler = (err, req, res, next) => {
     let statusCode = 500;
@@ -44,7 +67,10 @@ const globalErrorHandler = (err, req, res, next) => {
         message = simplifiedError.message;
         errorMessages = simplifiedError.errorSources;
     }
-    else if (err instanceof AppError_1.default) {
+    else if (err instanceof AppError_1.default ||
+        err instanceof AppError_1.NotFoundError ||
+        err instanceof AppError_1.UnauthorizedError ||
+        err instanceof AppError_1.ForbiddenError) {
         statusCode = err === null || err === void 0 ? void 0 : err.statusCode;
         message = err.message;
         errorMessages = [
