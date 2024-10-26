@@ -3,6 +3,7 @@ import { Profile } from "./profile.interface";
 
 const profileSchema = new Schema<Profile>(
   {
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String },
     email: { type: String },
     designation: { type: String },

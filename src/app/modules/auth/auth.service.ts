@@ -5,6 +5,7 @@ import { AuthModel } from "./auth.model";
 import { JwtPayload } from "jsonwebtoken";
 import { createToken, omitPassword } from "./auth.utils";
 import config from "../../config";
+import { ProfileService } from "../profile/profile.service";
 
 const signupUserIntoDB = async (payload: TUser) => {
   const existingUser = await AuthModel.isUserExist(payload.email);
@@ -14,6 +15,13 @@ const signupUserIntoDB = async (payload: TUser) => {
   }
 
   const result = await AuthModel.create(payload);
+
+  // Create a profile for the new user
+  await ProfileService.createProfile({
+    user: result._id,
+    name: result.name,
+    email: result.email,
+  });
 
   return omitPassword(result);
 };

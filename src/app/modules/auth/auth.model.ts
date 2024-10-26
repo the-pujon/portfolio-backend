@@ -21,9 +21,6 @@ const authSchema = new Schema<TUser, AuthStaticMethods>({
     type: String,
     default: "user",
   },
-  totalBuy: {
-    type: String,
-  },
 });
 
 //hashing password before saving user data into db
