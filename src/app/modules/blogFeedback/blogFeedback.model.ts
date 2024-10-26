@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { BlogFeedback } from "./blogFeedback.interface";
+//import { BlogFeedback } from "./blogFeedback.interface";
 
 const blogFeedbackSchema = new Schema<BlogFeedback>(
   {

@@ -9,12 +9,13 @@ const createBlog = async (payload: Partial<Blog>): Promise<Blog> => {
 };
 
 const getAllBlogs = async (): Promise<Blog[]> => {
-  const result = await BlogModel.find().populate("blogFeedback");
+  //const result = await BlogModel.find().populate("feedback");
+  const result = await BlogModel.find();
   return result;
 };
 
 const getBlogById = async (id: string): Promise<Blog | null> => {
-  const result = await BlogModel.findById(id).populate("blogFeedback");
+  const result = await BlogModel.findById(id);
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Blog not found");
   }
@@ -28,7 +29,7 @@ const updateBlog = async (
   const result = await BlogModel.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
-  }).populate("blogFeedback");
+  });
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Blog not found");
   }

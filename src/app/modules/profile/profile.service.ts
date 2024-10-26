@@ -9,7 +9,7 @@ const createProfile = async (payload: Partial<Profile>): Promise<Profile> => {
 };
 
 const getProfileById = async (id: string): Promise<Profile | null> => {
-  const result = await ProfileModel.findOne({ user: id });
+  const result = await ProfileModel.findOne({ user: id }).populate("skills");
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Profile not found");
   }

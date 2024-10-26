@@ -10,5 +10,10 @@ export interface Blog {
   tags: string[];
   createdAt: Date;
   updatedAt: Date;
-  blogFeedback: Types.ObjectId[];
+  feedback?: {
+    rating: number;
+    email: string;
+    feedback: string;
+  }[];
+  //blogFeedback: Types.ObjectId[];
 }

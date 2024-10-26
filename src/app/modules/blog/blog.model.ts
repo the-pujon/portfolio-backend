@@ -9,7 +9,13 @@ const blogSchema = new Schema<Blog>(
     author: { type: String, required: true },
     category: { type: String, required: true },
     tags: [{ type: String }],
-    blogFeedback: [{ type: Schema.Types.ObjectId, ref: "BlogFeedback" }],
+    feedback: [
+      {
+        rating: { type: Number, required: true },
+        email: { type: String, required: true },
+        feedback: { type: String, required: true },
+      },
+    ],
   },
   {
     timestamps: true,

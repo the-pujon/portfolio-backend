@@ -15,7 +15,7 @@ const profileSchema = new Schema<Profile>(
     heroImage: { type: String },
     about: { type: String },
     aboutImage: { type: String },
-    skills: [{ type: Schema.Types.ObjectId, ref: "Skill" }],
+    skills: [{ type: Schema.Types.ObjectId, ref: "BlogFeedback" }],
     projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
     experiences: [{ type: Schema.Types.ObjectId, ref: "Experience" }],
     education: [{ type: Schema.Types.ObjectId, ref: "Education" }],
