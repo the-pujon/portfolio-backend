@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
 export interface Profile {
+  user: Types.ObjectId;
   name?: string;
   email?: string;
   designation?: string;
