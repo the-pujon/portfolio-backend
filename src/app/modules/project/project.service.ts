@@ -2,9 +2,21 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { Project } from "./project.interface";
 import ProjectModel from "./project.model";
+import ProfileModel from "../profile/profile.model";
 
-const createProject = async (payload: Partial<Project>): Promise<Project> => {
+const createProject = async (
+  payload: Partial<Project>,
+  userId: string,
+): Promise<Project> => {
   const result = await ProjectModel.create(payload);
+
+  // Update the profile with the new project
+  await ProfileModel.findOneAndUpdate(
+    { user: userId },
+    { $push: { projects: result._id } },
+    { new: true },
+  );
+
   return result;
 };
 
@@ -35,11 +47,26 @@ const updateProject = async (
   return result;
 };
 
-const deleteProject = async (id: string): Promise<void> => {
+const deleteProject = async (id: string, userId: string): Promise<void> => {
   const result = await ProjectModel.findByIdAndDelete(id);
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Project not found");
   }
+
+  // Remove the project from the profile
+  await ProfileModel.findOneAndUpdate(
+    { user: userId },
+    { $pull: { projects: id } },
+    { new: true },
+  );
+};
+
+const getProfileByUserId = async (userId: string) => {
+  const profile = await ProfileModel.findOne({ user: userId });
+  if (!profile) {
+    throw new AppError(httpStatus.NOT_FOUND, "Profile not found");
+  }
+  return profile;
 };
 
 export const ProjectService = {
@@ -48,4 +75,5 @@ export const ProjectService = {
   getProjectById,
   updateProject,
   deleteProject,
+  getProfileByUserId,
 };

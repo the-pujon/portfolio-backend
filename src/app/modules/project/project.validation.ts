@@ -8,6 +8,7 @@ const feedbackSchema = z.object({
 
 const createProjectZodSchema = z.object({
   body: z.object({
+    userId: z.string().optional(),
     title: z.string().optional(),
     shortDescription: z.string().optional(),
     fullDescription: z.string().optional(),
