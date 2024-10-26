@@ -2,6 +2,9 @@ import { z } from "zod";
 
 const createEducationZodSchema = z.object({
   body: z.object({
+    userId: z.string({
+      required_error: "User ID is required",
+    }),
     institution: z.string({
       required_error: "Institution is required",
     }),

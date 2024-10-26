@@ -5,7 +5,8 @@ import httpStatus from "http-status";
 import { EducationService } from "./education.service";
 
 const createEducation = catchAsync(async (req: Request, res: Response) => {
-  const result = await EducationService.createEducation(req.body);
+  const { userId, ...educationData } = req.body;
+  const result = await EducationService.createEducation(educationData, userId);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -48,7 +49,8 @@ const updateEducation = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteEducation = catchAsync(async (req: Request, res: Response) => {
-  const result = await EducationService.deleteEducation(req.params.id);
+  const { userId } = req.body;
+  const result = await EducationService.deleteEducation(req.params.id, userId);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

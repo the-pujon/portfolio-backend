@@ -2,11 +2,21 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { Education } from "./education.interface";
 import EducationModel from "./education.model";
+import ProfileModel from "../profile/profile.model";
 
 const createEducation = async (
   payload: Partial<Education>,
+  userId: string,
 ): Promise<Education> => {
   const result = await EducationModel.create(payload);
+
+  // Update profile with new education
+  await ProfileModel.findOneAndUpdate(
+    { user: userId },
+    { $push: { education: result._id } },
+    { new: true },
+  );
+
   return result;
 };
 
@@ -37,11 +47,18 @@ const updateEducation = async (
   return result;
 };
 
-const deleteEducation = async (id: string): Promise<void> => {
+const deleteEducation = async (id: string, userId: string): Promise<void> => {
   const result = await EducationModel.findByIdAndDelete(id);
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Education not found");
   }
+
+  // Remove education from profile
+  await ProfileModel.findOneAndUpdate(
+    { user: userId },
+    { $pull: { education: id } },
+    { new: true },
+  );
 };
 
 export const EducationService = {
