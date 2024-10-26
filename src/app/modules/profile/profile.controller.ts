@@ -25,6 +25,8 @@ const getProfileById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateProfile = catchAsync(async (req: Request, res: Response) => {
+  console.log("req.body", req.body);
+
   const result = await ProfileService.updateProfile(req.params.id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,

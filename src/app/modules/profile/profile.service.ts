@@ -9,7 +9,7 @@ const createProfile = async (payload: Partial<Profile>): Promise<Profile> => {
 };
 
 const getProfileById = async (id: string): Promise<Profile | null> => {
-  const result = await ProfileModel.findById(id);
+  const result = await ProfileModel.findOne({ user: id });
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Profile not found");
   }
@@ -20,7 +20,9 @@ const updateProfile = async (
   id: string,
   payload: Partial<Profile>,
 ): Promise<Profile | null> => {
-  const result = await ProfileModel.findByIdAndUpdate(id, payload, {
+  console.log("payload", payload);
+
+  const result = await ProfileModel.findOneAndUpdate({ user: id }, payload, {
     new: true,
     runValidators: true,
   });
