@@ -5,7 +5,8 @@ import httpStatus from "http-status";
 import { SkillService } from "./skill.service";
 
 const createSkill = catchAsync(async (req: Request, res: Response) => {
-  const result = await SkillService.createSkill(req.body);
+  const { userId, ...skillData } = req.body;
+  const result = await SkillService.createSkill(skillData, userId);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -45,12 +46,13 @@ const updateSkill = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteSkill = catchAsync(async (req: Request, res: Response) => {
-  const result = await SkillService.deleteSkill(req.params.id);
+  const { userId } = req.body;
+  await SkillService.deleteSkill(req.params.id, userId);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Skill deleted successfully",
-    data: result,
+    data: null,
   });
 });
 
