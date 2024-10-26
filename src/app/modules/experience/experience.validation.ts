@@ -2,6 +2,9 @@ import { z } from "zod";
 
 const createExperienceZodSchema = z.object({
   body: z.object({
+    userId: z.string({
+      required_error: "User ID is required",
+    }),
     companyName: z.string({
       required_error: "Company name is required",
     }),
@@ -44,7 +47,25 @@ const updateExperienceZodSchema = z.object({
   }),
 });
 
+const deleteExperienceZodSchema = z.object({
+  body: z.object({
+    userId: z.string({
+      required_error: "User ID is required",
+    }),
+  }),
+});
+
+const getProfileByUserIdZodSchema = z.object({
+  params: z.object({
+    userId: z.string({
+      required_error: "User ID is required",
+    }),
+  }),
+});
+
 export const ExperienceValidation = {
   createExperienceZodSchema,
   updateExperienceZodSchema,
+  deleteExperienceZodSchema,
+  getProfileByUserIdZodSchema,
 };

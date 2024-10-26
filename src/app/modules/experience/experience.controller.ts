@@ -5,7 +5,8 @@ import httpStatus from "http-status";
 import { ExperienceService } from "./experience.service";
 
 const createExperience = catchAsync(async (req: Request, res: Response) => {
-  const result = await ExperienceService.createExperience(req.body);
+  const userId = req.body.userId; // Assuming userId is sent in the request body
+  const result = await ExperienceService.createExperience(req.body, userId);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -48,11 +49,26 @@ const updateExperience = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deleteExperience = catchAsync(async (req: Request, res: Response) => {
-  const result = await ExperienceService.deleteExperience(req.params.id);
+  const userId = req.body.userId; // Assuming userId is sent in the request body
+  const result = await ExperienceService.deleteExperience(
+    req.params.id,
+    userId,
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Experience deleted successfully",
+    data: result,
+  });
+});
+
+const getProfileByUserId = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+  const result = await ExperienceService.getProfileByUserId(userId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Profile retrieved successfully",
     data: result,
   });
 });
@@ -63,4 +79,5 @@ export const ExperienceController = {
   getExperienceById,
   updateExperience,
   deleteExperience,
+  getProfileByUserId, // Add this new controller method
 };
