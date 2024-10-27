@@ -21,14 +21,15 @@ const createProfile = (payload) => __awaiter(void 0, void 0, void 0, function* (
     return result;
 });
 const getProfileById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield profile_model_1.default.findById(id);
+    const result = yield profile_model_1.default.findOne({ user: id }).populate("skills");
     if (!result) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Profile not found");
     }
     return result;
 });
 const updateProfile = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield profile_model_1.default.findByIdAndUpdate(id, payload, {
+    console.log("payload", payload);
+    const result = yield profile_model_1.default.findOneAndUpdate({ user: id }, payload, {
         new: true,
         runValidators: true,
     });

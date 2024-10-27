@@ -34,9 +34,6 @@ const authSchema = new mongoose_1.Schema({
         type: String,
         default: "user",
     },
-    totalBuy: {
-        type: String,
-    },
 });
 //hashing password before saving user data into db
 authSchema.pre("save", function (next) {

@@ -16,8 +16,11 @@ exports.ProjectService = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const project_model_1 = __importDefault(require("./project.model"));
-const createProject = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const profile_model_1 = __importDefault(require("../profile/profile.model"));
+const createProject = (payload, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield project_model_1.default.create(payload);
+    // Update the profile with the new project
+    yield profile_model_1.default.findOneAndUpdate({ user: userId }, { $push: { projects: result._id } }, { new: true });
     return result;
 });
 const getAllProjects = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -41,11 +44,27 @@ const updateProject = (id, payload) => __awaiter(void 0, void 0, void 0, functio
     }
     return result;
 });
-const deleteProject = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteProject = (id, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield project_model_1.default.findByIdAndDelete(id);
     if (!result) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Project not found");
     }
+    // Remove the project from the profile
+    yield profile_model_1.default.findOneAndUpdate({ user: userId }, { $pull: { projects: id } }, { new: true });
+});
+const getProfileByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const profile = yield profile_model_1.default.findOne({ user: userId });
+    if (!profile) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Profile not found");
+    }
+    return profile;
+});
+const giveFeedback = (projectId, feedbackData) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield project_model_1.default.findByIdAndUpdate(projectId, { $push: { feedbacks: feedbackData } }, { new: true, runValidators: true });
+    if (!result) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Project not found");
+    }
+    return result;
 });
 exports.ProjectService = {
     createProject,
@@ -53,4 +72,6 @@ exports.ProjectService = {
     getProjectById,
     updateProject,
     deleteProject,
+    getProfileByUserId,
+    giveFeedback,
 };

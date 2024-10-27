@@ -36,6 +36,7 @@ const getProfileById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     });
 }));
 const updateProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("req.body", req.body);
     const result = yield profile_service_1.ProfileService.updateProfile(req.params.id, req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

@@ -18,12 +18,19 @@ const AppError_1 = __importDefault(require("../../errors/AppError"));
 const auth_model_1 = require("./auth.model");
 const auth_utils_1 = require("./auth.utils");
 const config_1 = __importDefault(require("../../config"));
+const profile_service_1 = require("../profile/profile.service");
 const signupUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const existingUser = yield auth_model_1.AuthModel.isUserExist(payload.email);
     if (existingUser) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "User already exists.");
     }
     const result = yield auth_model_1.AuthModel.create(payload);
+    // Create a profile for the new user
+    yield profile_service_1.ProfileService.createProfile({
+        user: result._id,
+        name: result.name,
+        email: result.email,
+    });
     return (0, auth_utils_1.omitPassword)(result);
 });
 const loginUserService = (payload) => __awaiter(void 0, void 0, void 0, function* () {

@@ -14,4 +14,5 @@ router.get("/", project_controller_1.ProjectController.getAllProjects);
 router.get("/:id", project_controller_1.ProjectController.getProjectById);
 router.patch("/:id", (0, validateRequess_1.default)(project_validation_1.ProjectValidation.updateProjectZodSchema), project_controller_1.ProjectController.updateProject);
 router.delete("/:id", project_controller_1.ProjectController.deleteProject);
+router.post("/feedback", (0, validateRequess_1.default)(project_validation_1.ProjectValidation.giveFeedbackZodSchema), project_controller_1.ProjectController.giveFeedback);
 exports.ProjectRoutes = router;

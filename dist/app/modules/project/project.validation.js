@@ -9,6 +9,7 @@ const feedbackSchema = zod_1.z.object({
 });
 const createProjectZodSchema = zod_1.z.object({
     body: zod_1.z.object({
+        userId: zod_1.z.string().optional(),
         title: zod_1.z.string().optional(),
         shortDescription: zod_1.z.string().optional(),
         fullDescription: zod_1.z.string().optional(),
@@ -59,7 +60,16 @@ const updateProjectZodSchema = zod_1.z.object({
         feedbacks: zod_1.z.array(feedbackSchema).optional(),
     }),
 });
+const giveFeedbackZodSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        projectId: zod_1.z.string(),
+        rating: zod_1.z.number().min(1).max(5),
+        email: zod_1.z.string().email(),
+        feedback: zod_1.z.string(),
+    }),
+});
 exports.ProjectValidation = {
     createProjectZodSchema,
     updateProjectZodSchema,
+    giveFeedbackZodSchema,
 };

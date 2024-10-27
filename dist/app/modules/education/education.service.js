@@ -16,8 +16,11 @@ exports.EducationService = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../../errors/AppError"));
 const education_model_1 = __importDefault(require("./education.model"));
-const createEducation = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const profile_model_1 = __importDefault(require("../profile/profile.model"));
+const createEducation = (payload, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield education_model_1.default.create(payload);
+    // Update profile with new education
+    yield profile_model_1.default.findOneAndUpdate({ user: userId }, { $push: { education: result._id } }, { new: true });
     return result;
 });
 const getAllEducations = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -41,11 +44,13 @@ const updateEducation = (id, payload) => __awaiter(void 0, void 0, void 0, funct
     }
     return result;
 });
-const deleteEducation = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteEducation = (id, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield education_model_1.default.findByIdAndDelete(id);
     if (!result) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Education not found");
     }
+    // Remove education from profile
+    yield profile_model_1.default.findOneAndUpdate({ user: userId }, { $pull: { education: id } }, { new: true });
 });
 exports.EducationService = {
     createEducation,
