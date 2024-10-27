@@ -18,5 +18,10 @@ router.patch(
   ProjectController.updateProject,
 );
 router.delete("/:id", ProjectController.deleteProject);
+router.post(
+  "/feedback",
+  validateRequest(ProjectValidation.giveFeedbackZodSchema),
+  ProjectController.giveFeedback,
+);
 
 export const ProjectRoutes = router;

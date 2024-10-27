@@ -65,6 +65,17 @@ const getProfileByUserId = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const giveFeedback = catchAsync(async (req: Request, res: Response) => {
+  const { projectId, ...feedbackData } = req.body;
+  const result = await ProjectService.giveFeedback(projectId, feedbackData);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Feedback added successfully",
+    data: result,
+  });
+});
+
 export const ProjectController = {
   createProject,
   getAllProjects,
@@ -72,4 +83,5 @@ export const ProjectController = {
   updateProject,
   deleteProject,
   getProfileByUserId,
+  giveFeedback,
 };

@@ -15,5 +15,4 @@ export interface Blog {
     email: string;
     feedback: string;
   }[];
-  //blogFeedback: Types.ObjectId[];
 }

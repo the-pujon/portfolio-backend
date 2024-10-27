@@ -61,7 +61,17 @@ const updateProjectZodSchema = z.object({
   }),
 });
 
+const giveFeedbackZodSchema = z.object({
+  body: z.object({
+    projectId: z.string(),
+    rating: z.number().min(1).max(5),
+    email: z.string().email(),
+    feedback: z.string(),
+  }),
+});
+
 export const ProjectValidation = {
   createProjectZodSchema,
   updateProjectZodSchema,
+  giveFeedbackZodSchema,
 };

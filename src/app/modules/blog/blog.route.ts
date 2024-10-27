@@ -19,4 +19,11 @@ router.patch(
 );
 router.delete("/:id", BlogController.deleteBlog);
 
+// New route for adding feedback
+router.post(
+  "/:id/feedback",
+  validateRequest(BlogValidation.addFeedbackZodSchema),
+  BlogController.addFeedback,
+);
+
 export const BlogRoutes = router;

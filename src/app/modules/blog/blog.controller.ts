@@ -54,10 +54,22 @@ const deleteBlog = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const addFeedback = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await BlogService.addFeedback(id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Feedback added successfully",
+    data: result,
+  });
+});
+
 export const BlogController = {
   createBlog,
   getAllBlogs,
   getBlogById,
   updateBlog,
   deleteBlog,
+  addFeedback,
 };

@@ -43,10 +43,33 @@ const deleteBlog = async (id: string): Promise<void> => {
   }
 };
 
+const addFeedback = async (
+  id: string,
+  feedbackData: Blog["feedback"],
+): Promise<Blog | null> => {
+  const blog = await BlogModel.findById(id);
+  if (!blog) {
+    throw new AppError(httpStatus.NOT_FOUND, "Blog not found");
+  }
+
+  const result = await BlogModel.findByIdAndUpdate(
+    id,
+    { $push: { feedback: feedbackData } },
+    { new: true, runValidators: true },
+  );
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Failed to add feedback");
+  }
+
+  return result;
+};
+
 export const BlogService = {
   createBlog,
   getAllBlogs,
   getBlogById,
   updateBlog,
   deleteBlog,
+  addFeedback,
 };

@@ -69,6 +69,27 @@ const getProfileByUserId = async (userId: string) => {
   return profile;
 };
 
+const giveFeedback = async (
+  projectId: string,
+  feedbackData: {
+    rating: number;
+    email: string;
+    feedback: string;
+  },
+): Promise<Project | null> => {
+  const result = await ProjectModel.findByIdAndUpdate(
+    projectId,
+    { $push: { feedbacks: feedbackData } },
+    { new: true, runValidators: true },
+  );
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Project not found");
+  }
+
+  return result;
+};
+
 export const ProjectService = {
   createProject,
   getAllProjects,
@@ -76,4 +97,5 @@ export const ProjectService = {
   updateProject,
   deleteProject,
   getProfileByUserId,
+  giveFeedback,
 };
