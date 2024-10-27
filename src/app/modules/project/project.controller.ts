@@ -26,6 +26,7 @@ const getAllProjects = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getProjectById = catchAsync(async (req: Request, res: Response) => {
+  console.log(req.params.id);
   const result = await ProjectService.getProjectById(req.params.id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
