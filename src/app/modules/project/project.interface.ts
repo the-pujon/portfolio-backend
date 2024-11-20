@@ -25,4 +25,6 @@ export interface Project {
     email: string;
     feedback: string;
   }[];
+  featured?: boolean;
+  priority?: number;
 }

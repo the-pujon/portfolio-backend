@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { Project } from "./project.interface";
+import { number } from "zod";
 
 const feedbackSchema = new Schema({
   rating: { type: Number, required: true },
@@ -31,6 +32,11 @@ const projectSchema = new Schema<Project>(
     challenges: [{ type: String }],
     solutions: [{ type: String }],
     feedbacks: [feedbackSchema],
+    priority: { type: Number },
+    featured: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

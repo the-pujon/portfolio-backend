@@ -90,6 +90,13 @@ const giveFeedback = async (
   return result;
 };
 
+const getFeaturedProjects = async (): Promise<Project[]> => {
+  const result = await ProjectModel.find({ featured: true })
+    .sort({ priority: 1 }) // Sort by priority in ascending order
+    .limit(6); // Limit to top 6 projects
+  return result;
+};
+
 export const ProjectService = {
   createProject,
   getAllProjects,
@@ -98,4 +105,5 @@ export const ProjectService = {
   deleteProject,
   getProfileByUserId,
   giveFeedback,
+  getFeaturedProjects,
 };

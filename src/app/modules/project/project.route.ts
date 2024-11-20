@@ -23,5 +23,6 @@ router.post(
   validateRequest(ProjectValidation.giveFeedbackZodSchema),
   ProjectController.giveFeedback,
 );
+router.get("/featured", ProjectController.getFeaturedProjects);
 
 export const ProjectRoutes = router;
