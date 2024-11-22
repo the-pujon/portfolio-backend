@@ -77,15 +77,27 @@ const giveFeedback = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getFeaturedProjects = catchAsync(async (req: Request, res: Response) => {
-  const result = await ProjectService.getFeaturedProjects();
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Featured projects retrieved successfully",
-    data: result,
-  });
-});
+//const getFeaturedProjects = catchAsync(async (req: Request, res: Response) => {
+//  const result = await ProjectService.getFeaturedProjects();
+//  sendResponse(res, {
+//    statusCode: httpStatus.OK,
+//    success: true,
+//    message: "Featured projects retrieved successfully",
+//    data: result,
+//  });
+//});
+
+const getFeaturedProjectsByPriority = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await ProjectService.getFeaturedProjectsByPriority();
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Featured projects retrieved successfully",
+      data: result,
+    });
+  },
+);
 
 export const ProjectController = {
   createProject,
@@ -95,5 +107,6 @@ export const ProjectController = {
   deleteProject,
   getProfileByUserId,
   giveFeedback,
-  getFeaturedProjects,
+  //getFeaturedProjects,
+  getFeaturedProjectsByPriority,
 };

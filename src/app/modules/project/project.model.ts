@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { Project } from "./project.interface";
-import { number } from "zod";
 
 const feedbackSchema = new Schema({
   rating: { type: Number, required: true },
