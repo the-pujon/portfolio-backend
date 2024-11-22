@@ -66,6 +66,19 @@ const giveFeedback = (projectId, feedbackData) => __awaiter(void 0, void 0, void
     }
     return result;
 });
+//const getFeaturedProjects = async (): Promise<Project[]> => {
+//  const result = await ProjectModel.find({ featured: true })
+//    .sort({ priority: 1 }) // Sort by priority in ascending order
+//    .limit(6); // Limit to top 6 projects
+//  return result;
+//};
+const getFeaturedProjectsByPriority = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield project_model_1.default.find({
+        featured: true,
+        priority: { $gte: 1, $lte: 6 },
+    }).sort({ priority: 1 }); // Sort by priority in ascending order
+    return result;
+});
 exports.ProjectService = {
     createProject,
     getAllProjects,
@@ -74,4 +87,6 @@ exports.ProjectService = {
     deleteProject,
     getProfileByUserId,
     giveFeedback,
+    //getFeaturedProjects,
+    getFeaturedProjectsByPriority,
 };

@@ -29,6 +29,11 @@ const projectSchema = new mongoose_1.Schema({
     challenges: [{ type: String }],
     solutions: [{ type: String }],
     feedbacks: [feedbackSchema],
+    priority: { type: Number, default: 0 },
+    featured: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
 });
