@@ -37,13 +37,39 @@ const updateProject = async (
   id: string,
   payload: Partial<Project>,
 ): Promise<Project | null> => {
+  // Add validation for featured projects and priority
+  if (payload.featured === true && payload.priority === undefined) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Priority must be set for featured projects",
+    );
+  }
+
+  if (payload.priority !== undefined) {
+    // Check if priority is already taken by another featured project
+    const existingProject = await ProjectModel.findOne({
+      _id: { $ne: id }, // exclude current project
+      featured: true,
+      priority: payload.priority,
+    });
+
+    if (existingProject) {
+      throw new AppError(
+        httpStatus.CONFLICT,
+        `Priority ${payload.priority} is already taken by another featured project`,
+      );
+    }
+  }
+
   const result = await ProjectModel.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
   });
+
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Project not found");
   }
+
   return result;
 };
 

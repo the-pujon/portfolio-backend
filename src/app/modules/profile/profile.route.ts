@@ -10,6 +10,7 @@ router.post(
   validateRequest(ProfileValidation.createProfileZodSchema),
   ProfileController.createProfile,
 );
+router.get("/", ProfileController.getAllProfiles);
 router.get("/:id", ProfileController.getProfileById);
 router.patch(
   "/:id",

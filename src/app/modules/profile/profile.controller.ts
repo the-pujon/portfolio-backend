@@ -46,9 +46,20 @@ const deleteProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllProfiles = catchAsync(async (req: Request, res: Response) => {
+  const result = await ProfileService.getAllProfiles();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Profiles retrieved successfully",
+    data: result,
+  });
+});
+
 export const ProfileController = {
   createProfile,
   getProfileById,
   updateProfile,
   deleteProfile,
+  getAllProfiles,
 };

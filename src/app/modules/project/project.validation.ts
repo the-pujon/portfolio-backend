@@ -31,6 +31,8 @@ const createProjectZodSchema = z.object({
     challenges: z.array(z.string()).optional(),
     solutions: z.array(z.string()).optional(),
     feedbacks: z.array(feedbackSchema).optional(),
+    featured: z.boolean().optional(),
+    priority: z.number().min(0).max(6).optional(),
   }),
 });
 
@@ -57,7 +59,8 @@ const updateProjectZodSchema = z.object({
     keyFeatures: z.array(z.string()).optional(),
     challenges: z.array(z.string()).optional(),
     solutions: z.array(z.string()).optional(),
-    feedbacks: z.array(feedbackSchema).optional(),
+    featured: z.boolean().optional(),
+    priority: z.number().min(0).max(6).optional(),
   }),
 });
 

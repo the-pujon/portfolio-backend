@@ -39,9 +39,15 @@ const deleteProfile = async (id: string): Promise<void> => {
   }
 };
 
+const getAllProfiles = async (): Promise<Profile[]> => {
+  const result = await ProfileModel.find();
+  return result;
+};
+
 export const ProfileService = {
   createProfile,
   getProfileById,
   updateProfile,
   deleteProfile,
+  getAllProfiles,
 };
